@@ -21,17 +21,18 @@ jdk12u would be more painful than merging jdk into both jdk11u and jdk12u.
 Pull request merge conflicts
 ----------------------------
 
-Suppose that a pull request, from branch `MYBRANCH` of `ORG`'s fork of
+Suppose that a pull request, from branch `MYBRANCH` of `MYORG`'s fork of
 `jdk`, is failing with a merge conflict in `jdk11u`.  Do the following in
-the master branch of `ORG`'s fork of `jdk11u` (create the fork if it does
+the master branch of `MYORG`'s fork of `jdk11u` (create the fork if it does
 not exist):
 
- * `BRANCHNAME=<MYBRANCH>`
+ * `BRANCH=<my-branch-name>`
+ * `ORG=<my-github-organization>`
  * `git pull --ff-only https://github.com/typetools/jdk11u.git`
- * `git checkout -b $BRANCHNAME`
- * `git pull https://github.com/ORG/jdk.git $BRANCHNAME`
+ * `git checkout -b $BRANCH`
+ * `git pull https://github.com/$ORG/jdk.git $BRANCH`
  * Resolve conflicts
- * `git push --set-upstream origin $BRANCHNAME`
+ * `git push --set-upstream origin $BRANCH`
  * `git checkout master`
  * Rerun CI for the pull request
 

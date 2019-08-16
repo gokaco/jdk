@@ -24,11 +24,12 @@
  */
 
 package java.io;
-import org.checkerframework.checker.signedness.qual.PolySigned;
-import org.checkerframework.checker.index.qual.NonNegative;
-import org.checkerframework.checker.index.qual.LTLengthOf;
+
 import org.checkerframework.checker.index.qual.IndexOrHigh;
+import org.checkerframework.checker.index.qual.LTLengthOf;
+import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.signedness.qual.PolySigned;
 
 /**
  * ObjectOutput extends the DataOutput interface to include writing of objects.
@@ -59,7 +60,7 @@ public interface ObjectOutput extends DataOutput, AutoCloseable {
      * @param b the byte
      * @exception IOException If an I/O error has occurred.
      */
-    public void write(int b) throws IOException;
+    public void write(@PolySigned int b) throws IOException;
 
     /**
      * Writes an array of bytes. This method will block until the bytes
