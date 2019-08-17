@@ -40,7 +40,7 @@ cd $JDK11DIR
 git pull $URL $BRANCH
 ```
 
-Manual step: merge conflicts
+Manual step: resolve conflicts.
 
 ```
 git push --set-upstream origin $BRANCH
