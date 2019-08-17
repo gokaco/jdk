@@ -21,20 +21,32 @@ jdk12u would be more painful than merging jdk into both jdk11u and jdk12u.
 Pull request merge conflicts
 ----------------------------
 
-Suppose that a pull request, from branch `MYBRANCH` of `MYORG`'s fork of
-`jdk`, is failing with a merge conflict in `jdk11u`.  Do the following in
-the master branch of `MYORG`'s fork of `jdk11u` (create the fork if it does
-not exist):
+If a pull request is failing with a merge conflict in `jdk11u`, do the
+following in a clone of the branch of `jdk` whose pull request is failing.
 
- * `BRANCH=<my-branch-name>`
- * `ORG=<my-github-organization>`
- * `git pull --ff-only https://github.com/typetools/jdk11u.git`
- * `git checkout -b $BRANCH`
- * `git pull https://github.com/$ORG/jdk.git $BRANCH`
- * Resolve conflicts
- * `git push --set-upstream origin $BRANCH`
- * `git checkout master`
- * Rerun CI for the pull request
+```
+BRANCH=`git rev-parse --abbrev-ref HEAD`
+URL=`git config --get remote.origin.url`
+SLUG=${URL#*:}
+ORG=${SLUG%/*}
+JDK11DIR=../jdk11u-fork-$ORG-branch-$BRANCH
+JDK11URL=`echo "$URL" | sed 's/jdk/jdk11u/'`
+if [ -d $JDK11DIR ] ; then
+  (cd $JDK11DIR && git pull)
+else
+  git clone $JDK11URL $JDK11DIR && (cd $JDK11DIR && git checkout -b $BRANCH)
+fi
+cd $JDK11DIR
+git pull $URL $BRANCH
+```
+
+Manual step: merge conflicts
+
+```
+git push --set-upstream origin $BRANCH
+```
+
+Manual step: restart the pull request CI job.
 
 After the pull request is merged to https://github.com/typetools/jdk,
 follow the instructions at https://github.com/typetools/jdk11u to update
