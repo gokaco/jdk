@@ -50,8 +50,8 @@ Manual step: restart the pull request CI job.
 
 After the pull request is merged to https://github.com/typetools/jdk,
 follow the instructions at https://github.com/typetools/jdk11u to update
-jdk11u, taking guidance from branch MYBRANCH of ORG/jdk11u to resolve conflicts.
-Then, discard branch MYBRANCH of ORG/jdk11u.
+jdk11u, taking guidance from the merge done in the fork of jdk11u to
+resolve conflicts.  Then, discard the branch in the fork of jdk11u.
 
 
 Upstream README follows
