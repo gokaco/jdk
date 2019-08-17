@@ -26,6 +26,7 @@
 package java.lang;
 
 import org.checkerframework.checker.index.qual.IndexOrHigh;
+import org.checkerframework.checker.index.qual.LessThan;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import java.io.IOException;
 
@@ -106,7 +107,7 @@ public interface Appendable {
      * @throws  IOException
      *          If an I/O error occurs
      */
-    Appendable append(@Nullable CharSequence csq, @IndexOrHigh({"#1"}) int start, @IndexOrHigh({"#1"}) int end) throws IOException;
+    Appendable append(@Nullable CharSequence csq, @IndexOrHigh({"#1"}) @LessThan({"#3 + 1"}) int start, @IndexOrHigh({"#1"}) int end) throws IOException;
 
     /**
      * Appends the specified character to this {@code Appendable}.

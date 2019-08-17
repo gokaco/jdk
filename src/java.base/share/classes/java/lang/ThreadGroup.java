@@ -27,8 +27,10 @@ package java.lang;
 
 import org.checkerframework.checker.lock.qual.GuardSatisfied;
 import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.index.qual.LTEqLengthOf;
 import java.io.PrintStream;
 import java.util.Arrays;
 import jdk.internal.misc.VM;
@@ -66,10 +68,10 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
     boolean daemon;
 
     int nUnstartedThreads = 0;
-    int nthreads;
+    @LTEqLengthOf({"threads"}) @NonNegative int nthreads;
     Thread threads[];
 
-    int ngroups;
+    @LTEqLengthOf({"groups"}) @NonNegative int ngroups;
     ThreadGroup groups[];
 
     /**
@@ -337,7 +339,7 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
      *
      * @since   1.0
      */
-    public int activeCount() {
+    public @NonNegative int activeCount() {
         int result;
         // Snapshot sub-group data so we don't hold this lock
         // while our children are computing.
@@ -383,7 +385,7 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
      *
      * @since   1.0
      */
-    public int enumerate(Thread list[]) {
+    public @NonNegative int enumerate(Thread list[]) {
         checkAccess();
         return enumerate(list, 0, true);
     }
@@ -421,12 +423,12 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
      *
      * @since   1.0
      */
-    public int enumerate(Thread list[], boolean recurse) {
+    public @NonNegative int enumerate(Thread list[], boolean recurse) {
         checkAccess();
         return enumerate(list, 0, recurse);
     }
 
-    private int enumerate(Thread list[], int n, boolean recurse) {
+    private @NonNegative int enumerate(Thread list[], @NonNegative int n, boolean recurse) {
         int ngroupsSnapshot = 0;
         ThreadGroup[] groupsSnapshot = null;
         synchronized (this) {
@@ -474,7 +476,7 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
      *
      * @since   1.0
      */
-    public int activeGroupCount() {
+    public @NonNegative int activeGroupCount() {
         int ngroupsSnapshot;
         ThreadGroup[] groupsSnapshot;
         synchronized (this) {
@@ -517,7 +519,7 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
      *
      * @since   1.0
      */
-    public int enumerate(ThreadGroup list[]) {
+    public @NonNegative int enumerate(ThreadGroup list[]) {
         checkAccess();
         return enumerate(list, 0, true);
     }
@@ -555,12 +557,12 @@ class ThreadGroup implements Thread.UncaughtExceptionHandler {
      *
      * @since   1.0
      */
-    public int enumerate(ThreadGroup list[], boolean recurse) {
+    public @NonNegative int enumerate(ThreadGroup list[], boolean recurse) {
         checkAccess();
         return enumerate(list, 0, recurse);
     }
 
-    private int enumerate(ThreadGroup list[], int n, boolean recurse) {
+    private @NonNegative int enumerate(ThreadGroup list[], @NonNegative int n, boolean recurse) {
         int ngroupsSnapshot = 0;
         ThreadGroup[] groupsSnapshot = null;
         synchronized (this) {
